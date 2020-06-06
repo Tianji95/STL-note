@@ -90,3 +90,11 @@ allocator的destroy有两个版本，一个版本是直接把对象析构掉，�
 
 allocator会考虑内存破碎问题，所以在底层设计的时候有一个双层配置器，当配置区块超过128Bytes的时候，认为足够大，调用第一级配置器，当申请区块小于128Bytes的时候，被认为足够小，使用memory pool内存整理方式。具体如下所示
 
+![allocator_memory](.\images\allocator_memory.png)
+
+能够看出的是，allocator使用的是malloc和free来配置内存，而不是用new和delete来配置内存，这一点归结于历史原因。
+
+第一级配置器在内存不够的时候尝试调用oom_realloc和oom_malloc，如果oom_realloc和oom_malloc再出现错误的话，会直接抛出异常，这时候就需要客户端来处理内存不足错误了。
+
+第二级配置器在内存不够的时候会尝试调用第一级配置器，如果小于128Bytes，
+

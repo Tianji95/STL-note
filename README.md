@@ -5,7 +5,7 @@ note of book &lt;effective STL> and &lt;the Annotated STL Sources>
 
 ## STL源码剖析
 
-##### allocator
+### 第二章：allocator
 
 allocator是一个可以将内存分配和对象构造分离开来的东西，因为new是先分配内存，然后一定会调用类的构造函数，两者绑定在一起会不是很方便，效率也比较低。所以allocator允许我们先分配一个内存，不调用对象的构造函数。使用的时候必须显式的调用对象的构造函数。举个例子：
 
@@ -109,3 +109,56 @@ allocator会考虑内存破碎问题，所以在底层设计的时候有一个�
 对于chunk_size来说，他每次从内存池申请空间都会申请20个块，比如下面这个例子，所以其实每次申请少一点会让空间利用率比较好
 
 ![chunk_alloc_example](.\images\chunk_alloc_example.png)
+
+
+
+##### 几个内存处理工具
+
+uninitialized_copy:把[result, result+(last-first))范围内的内一个迭代器都初始化，只是调用每一个元素的construct，这样就把构造和内存的配置分离开来,与之对应的有uninitialized_copy_n
+
+```
+template <class InputIterator, class ForwardIterator>
+ForwardIterator uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result);
+```
+
+uninitialized_fill: 对范围内的每个迭代器都用最后一个元素的值来构造,与之对应的有uninitialized_fill_n
+
+```
+template <class forwardIterator, class T>
+void uninitialized_fill(forwardIterator first, forwardIterator last, const T& x);
+```
+
+uninitialized_fill的实现方式：
+
+1. 先使用value_type(first)得到迭代器的值类型，判断是否是POD（Plain Old Data, 指的是传统的C类型，他们这些数据已经拥有了trivial copy/ assignment 等函数）
+2. 如果是标量类型，那么直接调用高效的copy方法
+3. 如果不是标量类型，那么就用for循环调用构造函数，具体流程如下图所示：
+
+
+
+![006_uninitialized_fill](.\images\006_uninitialized_fill.png)
+
+
+
+### 第三章：迭代器（iterator）和traits
+
+迭代器的精髓在于他把数据容器（containers）和算法分开，最后再粘在一起，C++和class templates和function templates 可以分别实现这两个功能。所以如何设计出这两个之间的粘合剂是非常重要的。
+
+迭代器本质是一个smart pointer， 所以对于他来讲，重载operator*和operator->是非常重要的
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

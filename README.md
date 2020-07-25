@@ -99,17 +99,17 @@ allocator会考虑内存破碎问题，所以在底层设计的时候有一个�
 
 第二级配置器在内存不够的时候会尝试调用第一级配置器，除了128Bytes的限制以外，第二级配置器还会自动对齐小区块需要的内存数量，例如申请30Bytes的小额区块，则实际上会申请32Bytes，并且维护16个free-lists（用来管理闲置内存）分别管理8,16,24,32,40...112,120,128bytes的小额区块。allocate和deallocate的free list区块示意图如下所示
 
-![allocator_memory_second](.\images\allocator_memory_second.png)
+![allocator_memory_second](./images/allocator_memory_second.png)
 
 
 
 当free lists中没有可用区块的时候，程序将会调用refill为freelist重新填充空间，新的空间是从内存池（chunk_alloc()完成)取出来的，源代码如下所示：
 
-![allocator_refill](.\images\allocator_refill.png)
+![allocator_refill](./images/allocator_refill.png)
 
 对于chunk_size来说，他每次从内存池申请空间都会申请20个块，比如下面这个例子，所以其实每次申请少一点会让空间利用率比较好
 
-![chunk_alloc_example](.\images\chunk_alloc_example.png)
+![chunk_alloc_example](./images/chunk_alloc_example.png)
 
 
 
@@ -137,7 +137,7 @@ uninitialized_fill的实现方式：
 
 
 
-![006_uninitialized_fill](.\images\006_uninitialized_fill.png)
+![006_uninitialized_fill](./images/006_uninitialized_fill.png)
 
 
 

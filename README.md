@@ -1,7 +1,7 @@
 # STL-note
 note of book &lt;effective STL> and &lt;the Annotated STL Sources>
-
-###因为作者把STL浏览了一遍，感觉没有在开发中特别有用的新内容，所以本书暂停更新（逃走）
+ 
+### 因为作者把STL浏览了一遍，感觉没有在开发中特别有用的新内容，所以本书暂停更新（逃走）
 
 
 ## STL源码剖析

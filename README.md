@@ -1,6 +1,7 @@
 # STL-note
 note of book &lt;effective STL> and &lt;the Annotated STL Sources>
 
+###因为作者把STL浏览了一遍，感觉没有在开发中特别有用的新内容，所以本书暂停更新（逃走）
 
 
 ## STL源码剖析
@@ -90,7 +91,7 @@ allocator的destroy有两个版本，一个版本是直接把对象析构掉，�
 
 allocator会考虑内存破碎问题，所以在底层设计的时候有一个双层配置器，当配置区块超过128Bytes的时候，认为足够大，调用第一级配置器，当申请区块小于128Bytes的时候，被认为足够小，使用memory pool内存整理方式。具体如下所示
 
-![allocator_memory](.\images\allocator_memory.png)
+![allocator_memory](./images/allocator_memory.png)
 
 能够看出的是，allocator使用的是malloc和free来配置内存，而不是用new和delete来配置内存，这一点归结于历史原因。
 
